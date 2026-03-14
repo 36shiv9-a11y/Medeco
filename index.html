@@ -22,6 +22,9 @@
         
         .btn-submit-report { background-color: #006666; color: white; font-weight: bold; }
         .btn-show-qr { background-color: #004a99; color: white; font-weight: bold; margin-top: 15px; }
+        
+        /* New Success Message Style */
+        .status-success { color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; padding: 10px; border-radius: 10px; margin-top: 15px; display: none; text-align: center; font-weight: 600; }
     </style>
 </head>
 <body>
@@ -74,13 +77,13 @@
                         <div class="d-grid">
                             <button type="button" class="btn btn-submit-report btn-lg shadow" onclick="submitReportOnly()">Submit Report</button>
                         </div>
+                        <div id="submitStatusMsg" class="status-success">✓ Report successfully submitted! Ab aap niche Step 2 mein payment kar sakte hain.</div>
                     </form>
-                    <div id="submitSuccess" class="text-success mt-2 fw-bold" style="display:none;">✓ Report successfully submitted!</div>
                 </div>
 
                 <div class="form-box">
                     <h3 class="fw-bold text-primary mb-3">Step 2: Payment</h3>
-                    <p class="text-muted">Agar aapne fees jama nahi ki hai, toh niche diye gaye QR code ka upyog karein.</p>
+                    <p class="text-muted small">Agar aapne fees jama nahi ki hai, toh niche button daba kar QR code dekhein.</p>
                     <div class="d-grid">
                         <button type="button" id="payBtn" class="btn btn-show-qr btn-lg shadow" onclick="toggleQR()">Show Payment QR</button>
                     </div>
@@ -113,16 +116,19 @@
     function submitReportOnly() {
         const nameInput = document.getElementById('pName');
         const errorDiv = document.getElementById('nameError');
-        const successMsg = document.getElementById('submitSuccess');
+        const statusMsg = document.getElementById('submitStatusMsg');
 
         if (nameInput.value.trim() === "") {
             errorDiv.style.display = 'block';
             nameInput.classList.add('is-invalid');
+            statusMsg.style.display = 'none';
         } else {
             errorDiv.style.display = 'none';
             nameInput.classList.remove('is-invalid');
-            successMsg.style.display = 'block';
-            alert("Aapki report submit ho gayi hai. Kripya ab payment karein.");
+            nameInput.classList.add('is-valid');
+            
+            // Pop-up ko remove karke in-page message dikhana
+            statusMsg.style.display = 'block';
         }
     }
 
